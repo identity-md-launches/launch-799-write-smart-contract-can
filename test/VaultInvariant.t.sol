@@ -78,6 +78,9 @@ contract VaultHandler is Test {
     }
 }
 
+/// forge-config: default.invariant.runs = 256
+/// forge-config: default.invariant.depth = 64
+/// forge-config: default.invariant.fail-on-revert = true
 contract VaultInvariantTest is VaultBase {
     VaultHandler private _handler;
 

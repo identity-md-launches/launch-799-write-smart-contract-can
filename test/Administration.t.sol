@@ -168,8 +168,9 @@ contract AdministrationTest is VaultBase {
         new CappedAssetVault(OWNER, address(usdt), address(usdc), 18, address(0));
     }
 
+    /// forge-config: default.fuzz.runs = 1000
     function testFuzz_NonOwnerCannotAdminister(address caller) public {
-        vm.assume(caller != OWNER);
+        if (caller == OWNER) caller = STRANGER;
         _assertNotAdministrator(caller);
     }
 

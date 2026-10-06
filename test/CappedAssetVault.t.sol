@@ -404,7 +404,8 @@ contract CappedAssetVaultTest is VaultBase {
         vault.unpause();
     }
 
-    function testFuzz_ExactValuationAndFullConservation(uint64 ethSeed, uint64 stableSeed, uint64 imdSeed) public {
+    /// forge-config: default.fuzz.runs = 1000
+    function testFuzz_ExactValuationAndFullConservation(uint256 ethSeed, uint256 stableSeed, uint256 imdSeed) public {
         uint256 ethAmount = bound(ethSeed, 1, 1 ether);
         uint256 stableAmount = bound(stableSeed, 1, 1000e6);
         uint256 imdAmount = bound(imdSeed, 1, 100e18);
@@ -427,8 +428,9 @@ contract CappedAssetVaultTest is VaultBase {
         assertEq(vault.totalValueUsd(), 0);
     }
 
+    /// forge-config: default.fuzz.runs = 1000
     function testFuzz_UnauthorizedWithdrawerAlwaysFails(address caller) public {
-        vm.assume(caller != PAYEE);
+        if (caller == PAYEE) caller = STRANGER;
         _assertNoWithdrawal(caller);
     }
 
