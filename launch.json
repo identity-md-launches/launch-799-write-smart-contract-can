@@ -1,0 +1,20 @@
+{
+  "kind": "evm_contracts",
+  "contracts": [
+    {
+      "contract": "OpenDepositPolicy",
+      "constructorArgs": []
+    },
+    {
+      "contract": "CappedAssetVault",
+      "constructorArgs": [
+        "$owner",
+        "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "18",
+        "$contract:OpenDepositPolicy"
+      ]
+    }
+  ],
+  "notes": "Ethereum mainnet. Deploy OpenDepositPolicy first, then CappedAssetVault with constructor arguments initialOwner, usdt, usdc, imdDecimals_, initialPolicy. $owner controls pause/unpause and can replace the deposit policy while paused. Upgrades affect deposit admission only; custody rules, prices, cap and withdrawal beneficiary remain fixed. USDT and USDC use 6 decimals and a fixed $1 valuation. The task-pinned IMD at 0xD34a99Bc0f67aE1bbd63C660e6d0b0dd03E263B7 uses 18 decimals and a fixed $9 valuation; ETH is fixed at $2600. Deposit entry points enforce a combined $10000 cap on current holdings; withdrawals restore capacity. Unsolicited ERC20 transfers and forced ETH can exceed the cap and are included in subsequent valuations. Only 0x047f606fd5b2baa5f5c6c4ab8958e45cb6b054b7 may withdraw, always to itself, in any positive amount up to the available balance including the full balance, even while paused or after a policy upgrade. Both contracts are fully configured by nonpayable constructors; deployment sends zero ETH and requires no initialization calls."
+}
